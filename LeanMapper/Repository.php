@@ -78,6 +78,37 @@ abstract class Repository
 	}
 
 	/**
+	 * @param QueryObject $query
+	 *
+	 * @return ResultSet
+	 */
+	public function fetch(QueryObject $query)
+	{
+		return new ResultSet($query->getQuery($this), $this);
+	}
+
+
+	/**
+	 * @param QueryObject $query
+	 *
+	 * @return mixed
+	 */
+	public function fetchOne(QueryObject $query)
+	{
+		return $query->fetchOne($this);
+	}
+
+
+	/**
+	 * @return Fluent
+	 */
+	public function getCommand()
+	{
+		return $this->connection->command()->from($this->getTable());
+	}
+
+
+	/**
 	 * Stores values of entity's modified properties into database (inserts new row when entity is in detached state)
 	 *
 	 * @param Entity $entity
@@ -221,7 +252,7 @@ abstract class Repository
 	 * @param string|null $table
 	 * @return mixed
 	 */
-	protected function createEntity(DibiRow $dibiRow, $entityClass = null, $table = null)
+	public function createEntity(DibiRow $dibiRow, $entityClass = null, $table = null)
 	{
 		if ($table === null) {
 			$table = $this->getTable();
@@ -244,7 +275,7 @@ abstract class Repository
 	 * @param string|null $table
 	 * @return array
 	 */
-	protected function createEntities(array $rows, $entityClass = null, $table = null)
+	public function createEntities(array $rows, $entityClass = null, $table = null)
 	{
 		if ($table === null) {
 			$table = $this->getTable();
