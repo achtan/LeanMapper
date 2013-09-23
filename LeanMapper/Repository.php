@@ -95,7 +95,7 @@ abstract class Repository
 	 */
 	public function fetchOne(QueryObject $query)
 	{
-		return $query->fetchOne($this);
+		return $this->createEntity($query->fetchOne($this));
 	}
 
 
